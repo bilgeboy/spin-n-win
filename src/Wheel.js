@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Wheel({ angle, prizes, colors }) {
+export default function Wheel({ angle, segments }) {
   const size = 256;
   const radius = size / 2;
-  const numSegments = prizes.length;
+  const numSegments = segments.length;
   const segmentAngle = 360 / numSegments;
 
   const createPath = (index) => {
@@ -28,28 +28,28 @@ export default function Wheel({ angle, prizes, colors }) {
         className="transition-transform duration-[3000ms] ease-out"
         style={{ transform: `rotate(${angle}deg)` }}
       >
-        {prizes.map((prize, index) => (
+        {segments.map((segment, index) => (
           <g key={index}>
-            <path d={createPath(index)} fill={colors[index % colors.length]} />
+            <path d={createPath(index)} fill={segment.color} />
           </g>
         ))}
 
-        {/* שול - קשת חיצונית מסביב לגלגל */}
+        {/* שול */}
         <circle
           cx={radius}
           cy={radius}
           r={radius - 5}
           fill="none"
-          stroke="#b5651d" // צבע הקשה
+          stroke="#b5651d"
           strokeWidth="10"
         />
 
         {/* טקסטים */}
-        {prizes.map((prize, index) => (
+        {segments.map((segment, index) => (
           <text
             key={`text-${index}`}
             x={radius}
-            y={radius - 65} // קרוב יותר לקצה
+            y={radius - 65}
             fill="white"
             fontSize="25"
             fontWeight="bold"
@@ -58,7 +58,7 @@ export default function Wheel({ angle, prizes, colors }) {
               segmentAngle * index + segmentAngle / 2
             }, ${radius}, ${radius})`}
           >
-            {prize}
+            {segment.label}
           </text>
         ))}
       </svg>
