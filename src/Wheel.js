@@ -47,18 +47,19 @@ export default function Wheel({ angle, segments, spinCost }) {
         {/* טקסטים */}
         {segments.map((segment, index) => (
           <text
-  key={`text-${index}`}
-  x={radius}
-  y={radius - 65}
-  fill="white"
-  fontSize={spinCost>100 ? "16" : "25"} // שינוי גודל דינמי
-  fontWeight="bold"
-  textAnchor="middle"
-  transform={`rotate(${segmentAngle * index + segmentAngle / 2}, ${radius}, ${radius})`}
->
-  {segment.label}
-</text>
-
+            key={`text-${index}`}
+            x={radius}
+            y={radius - 65}
+            fill="white"
+            fontSize={spinCost > 100 ? "16" : "25"} // שינוי גודל דינמי
+            fontWeight="bold"
+            textAnchor="middle"
+            transform={`rotate(${
+              segmentAngle * index + segmentAngle / 2
+            }, ${radius}, ${radius})`}
+          >
+            {segment.label}
+          </text>
         ))}
       </svg>
 
