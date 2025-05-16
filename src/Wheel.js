@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Wheel({ angle, segments }) {
+export default function Wheel({ angle, segments, spinCost }) {
   const size = 256;
   const radius = size / 2;
   const numSegments = segments.length;
@@ -47,19 +47,18 @@ export default function Wheel({ angle, segments }) {
         {/* טקסטים */}
         {segments.map((segment, index) => (
           <text
-            key={`text-${index}`}
-            x={radius}
-            y={radius - 65}
-            fill="white"
-            fontSize="25"
-            fontWeight="bold"
-            textAnchor="middle"
-            transform={`rotate(${
-              segmentAngle * index + segmentAngle / 2
-            }, ${radius}, ${radius})`}
-          >
-            {segment.label}
-          </text>
+  key={`text-${index}`}
+  x={radius}
+  y={radius - 65}
+  fill="white"
+  fontSize={spinCost>100 ? "16" : "25"} // שינוי גודל דינמי
+  fontWeight="bold"
+  textAnchor="middle"
+  transform={`rotate(${segmentAngle * index + segmentAngle / 2}, ${radius}, ${radius})`}
+>
+  {segment.label}
+</text>
+
         ))}
       </svg>
 
