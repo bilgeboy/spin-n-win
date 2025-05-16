@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import Wheel from "./Wheel";
 
-const prizes = ["💰", "🏛️", "🔥", "🎁", "⛔", "❓", "💾", "💸"];
+const prizes = ["100", "50", "🔥", "🎁", "⛔", "❓", "💾", "💸"];
 
 const segmentColors = [
   "#fbbf24", // Yellow
@@ -19,23 +19,6 @@ export default function App() {
   const [spinning, setSpinning] = useState(false);
   const [angle, setAngle] = useState(0);
   const [result, setResult] = useState("");
-
-  const spin = () => {
-    if (spinning) return;
-
-    const segmentAngle = 360 / prizes.length;
-    const randomIndex = Math.floor(Math.random() * prizes.length);
-    const extraSpins = 5 * 360;
-    const newAngle = extraSpins + randomIndex * segmentAngle + segmentAngle / 2;
-
-    setSpinning(true);
-    setAngle(newAngle);
-
-    setTimeout(() => {
-      setResult(prizes[randomIndex]);
-      setSpinning(false);
-    }, 3000);
-  };
 
   const spinWheel = () => {
     if (spinning) return;
