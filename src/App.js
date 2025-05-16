@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./index.css";
 import Wheel from "./Wheel";
 import { default as defaultSegments } from "./defaultSegments";
+import { playerProfiles } from "./playerSegments";
+
 
 export default function App() {
   const [spinning, setSpinning] = useState(false);
@@ -10,8 +12,16 @@ export default function App() {
   const [balance, setBalance] = useState(100); // באלאנס התחלתי
   const [error, setError] = useState(""); // הודעת שגיאה אם אין מספיק כסף
   const [spinCost, setSpinCost] = useState(10);
-  const [segments, setSegments] = useState(defaultSegments);
   const [previousSpinCost, setPreviousSpinCost] = useState(spinCost);
+  const [playerType, setPlayerType] = useState("casual");
+  const [segments, setSegments] = useState(playerProfiles[playerType]);
+
+
+  const changePlayerType = (type) => {
+  setPlayerType(type);
+  setSegments(playerProfiles[type]);
+};
+
 
 
 const updateSegmentsForNewCost = (newCost) => {
@@ -83,6 +93,20 @@ const updateSegmentsForNewCost = (newCost) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-50 to-pink-100">
+      <div className="flex gap-2 mb-4">
+  {["newbie", "casual", "grinder", "whale"].map((type) => (
+    <button
+      key={type}
+      onClick={() => changePlayerType(type)}
+      className={`px-3 py-1 rounded text-sm capitalize ${
+        playerType === type ? "bg-green-600 text-white" : "bg-gray-200"
+      }`}
+    >
+      {type}
+    </button>
+  ))}
+</div>
+
       <h1 className="text-3xl font-bold mb-6 text-gray-800">🎡 Spin & Win</h1>
 
       <div className="text-center mb-4">
