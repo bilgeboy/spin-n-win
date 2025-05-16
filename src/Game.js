@@ -13,7 +13,8 @@ export default function Game() {
   const [spinning, setSpinning] = useState(false);
   const [angle, setAngle] = useState(0);
   const [result, setResult] = useState("");
-  const [balance, setBalance] = useState(10000);
+  const [balance, setBalance] = useState(100);
+  const [firstBalance, setFirstBalance] = useState(100);
   const [error, setError] = useState("");
   const [spinCost, setSpinCost] = useState(10);
   const [playerType, setPlayerType] = useState("casual");
@@ -179,6 +180,7 @@ export default function Game() {
                   totalWins: metrics.totalWins,
                   winsCount: metrics.winsCount,
                   spendBeforeFirstWin: metrics.spendBeforeFirstWin,
+                  firstBalance,
                   // כל שדה נוסף שאתה מוסיף ב־initialMetrics – תכלול כאן
                 },
               ])

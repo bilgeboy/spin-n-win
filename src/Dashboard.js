@@ -52,7 +52,7 @@ export default function Dashboard() {
         acc.push({ spin: index + 1, balance: newBalance });
         return acc;
       },
-      [{ spin: 0, balance: 10000 }]
+      [{ spin: 0, balance: metrics.firstBalance }]
     )
     .slice(1); // remove initial dummy entry
 
