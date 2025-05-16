@@ -14,12 +14,12 @@ export default function Game() {
   const [angle, setAngle] = useState(0);
   const [result, setResult] = useState("");
   const [balance, setBalance] = useState(100);
+  // eslint-disable-next-line no-unused-vars
   const [firstBalance, setFirstBalance] = useState(100);
   const [error, setError] = useState("");
   const [spinCost, setSpinCost] = useState(10);
   const [playerType, setPlayerType] = useState("casual");
   const [segments, setSegments] = useState(playerProfiles[playerType]);
-  const [history, setHistory] = useState([]);
   const [gameData, setGameData] = React.useState({
     newbie: { ...initialMetrics },
     casual: { ...initialMetrics },
