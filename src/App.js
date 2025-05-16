@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import "./index.css";
 import Wheel from "./Wheel";
-
-const defaultSegments = [
-  { label: "1", color: "#fbbf24", probability: 0.93 },
-  { label: "25", color: "#10b981", probability: 0.01 },
-  { label: "50", color: "#3b82f6", probability: 0.01 },
-  { label: "3", color: "#f472b6", probability: 0.01 },
-  { label: "5", color: "#8b5cf6", probability: 0.01 },
-  { label: "25", color: "#f87171", probability: 0.01 },
-  { label: "50", color: "#34d399", probability: 0.01 },
-  { label: "100", color: "#facc15", probability: 0.01 },
-];
+import { default as defaultSegments } from "./defaultSegments";
 
 export default function App() {
   const [spinning, setSpinning] = useState(false);
   const [angle, setAngle] = useState(0);
   const [result, setResult] = useState("");
+  const [balance, setBalance] = useState(100); // באלאנס התחלתי
+  const [error, setError] = useState(""); // הודעת שגיאה אם אין מספיק כסף
 
   const pickPrizeIndexByProbability = (segments) => {
     const rand = Math.random();
@@ -32,7 +24,13 @@ export default function App() {
   const spinWheel = () => {
     if (spinning) return;
 
+    if (balance < 10) {
+      setError("אין לך מספיק באלאנס כדי לשחק!");
+      return;
+    }
+
     setSpinning(true);
+    setError(""); // איפוס שגיאה
 
     const spinStart = performance.now();
     const spinDuration = 3000;
@@ -40,14 +38,12 @@ export default function App() {
 
     const segmentAngle = 360 / defaultSegments.length;
     const selectedIndex = pickPrizeIndexByProbability(defaultSegments);
-
-    // נוסיף סטייה אקראית קטנה בתוך הסגמנט
     const randomOffsetWithinSegment = Math.random() * segmentAngle;
-
-    // נחשב את הזווית שבה נמצא האמצע של הסגמנט הנבחר
     const targetAngle =
       360 - (selectedIndex * segmentAngle + randomOffsetWithinSegment);
     const finalRotation = extraSpins + targetAngle;
+
+    setBalance((prev) => prev - 10); // תשלום מחיר כניסה
 
     const animation = requestAnimationFrame(function animate(time) {
       const elapsed = time - spinStart;
@@ -60,7 +56,9 @@ export default function App() {
       } else {
         setAngle(finalRotation);
         setSpinning(false);
-        setResult(defaultSegments[selectedIndex].label);
+        const selectedPrize = defaultSegments[selectedIndex];
+        setResult(selectedPrize.label);
+        setBalance((prev) => prev + selectedPrize.value); // קבלת ערך פרס
       }
     });
   };
@@ -69,11 +67,16 @@ export default function App() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-50 to-pink-100">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">🎡 Spin & Win</h1>
 
+      <div className="text-center mb-4">
+        <p className="text-xl font-semibold">BALANCE: {balance}</p>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
+
       <Wheel angle={angle} segments={defaultSegments} />
 
       <button
         onClick={spinWheel}
-        disabled={spinning}
+        disabled={spinning || balance < 10}
         className="px-6 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 disabled:opacity-50"
       >
         {spinning ? "Spinning..." : "Spin"}
