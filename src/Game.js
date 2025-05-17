@@ -181,6 +181,7 @@ export default function Game() {
                   winsCount: metrics.winsCount,
                   spendBeforeFirstWin: metrics.spendBeforeFirstWin,
                   firstBalance,
+                  spinCost,
                   // כל שדה נוסף שאתה מוסיף ב־initialMetrics – תכלול כאן
                 },
               ])

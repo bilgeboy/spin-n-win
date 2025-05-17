@@ -1,3 +1,5 @@
+import { playerProfiles } from "./playerSegments";
+
 export function updateGameDataAfterSpin(
   prevGameData,
   playerType,
@@ -35,4 +37,12 @@ export function updateGameDataAfterSpin(
 
   data[playerType] = metrics;
   return data;
+}
+
+export function calcRTP(type, spinCost) {
+  let EV = 0;
+  playerProfiles[type].forEach((segment) => {
+    EV += segment.value * segment.probability;
+  });
+  return ((EV / spinCost) * 100).toFixed(2);
 }

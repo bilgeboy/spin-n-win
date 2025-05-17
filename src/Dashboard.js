@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { calcRTP } from "./gameDataUtils";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -37,6 +38,7 @@ export default function Dashboard() {
     (sum, spin) => sum + (parseInt(spin.prize) || 0),
     0
   );
+  const RTP = calcRTP(selectedPlayerType, metrics.spinCost) || 0;
   const biggestWin = Math.max(
     ...metrics.spins.map((spin) => parseInt(spin.prize) || 0),
     0
@@ -97,6 +99,11 @@ export default function Dashboard() {
           title="Net Profit"
           value={(netProfit >= 0 ? "+" : "") + netProfit}
           color={netProfit >= 0 ? "text-green-600" : "text-red-600"}
+          full
+        />
+        <Card
+          title="RTP"
+          value={`🎯 Current configuration for this player type has a RTP of: ${RTP}%`}
           full
         />
       </div>
