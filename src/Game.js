@@ -26,6 +26,12 @@ export default function Game() {
     grinder: { ...initialMetrics },
     whale: { ...initialMetrics },
   });
+  const [playerSettings, setPlayerSettings] = useState({
+    newbie: { spinCost: 10, segments: playerProfiles["newbie"] },
+    casual: { spinCost: 10, segments: playerProfiles["casual"] },
+    grinder: { spinCost: 10, segments: playerProfiles["grinder"] },
+    whale: { spinCost: 10, segments: playerProfiles["whale"] },
+  });
 
   const changePlayerType = (type) => {
     setPlayerType(type);
@@ -36,6 +42,14 @@ export default function Game() {
       label: String(Math.round(seg.value * multiplier)),
     }));
     setSegments(updatedSegments);
+
+    setPlayerSettings((prev) => ({
+      ...prev,
+      [type]: {
+        spinCost,
+        segments: updatedSegments,
+      },
+    }));
   };
 
   const updateSegmentsForNewCost = (newCost) => {
@@ -49,6 +63,14 @@ export default function Game() {
     }));
 
     setSegments(updatedSegments);
+
+    setPlayerSettings((prev) => ({
+      ...prev,
+      [playerType]: {
+        spinCost: newCost,
+        segments: updatedSegments,
+      },
+    }));
   };
 
   const pickPrizeIndexByProbability = (segments) => {
@@ -181,7 +203,7 @@ export default function Game() {
                   winsCount: metrics.winsCount,
                   spendBeforeFirstWin: metrics.spendBeforeFirstWin,
                   firstBalance,
-                  spinCost,
+                  playerSettings,
                   // כל שדה נוסף שאתה מוסיף ב־initialMetrics – תכלול כאן
                 },
               ])

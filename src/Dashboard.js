@@ -38,7 +38,7 @@ export default function Dashboard() {
     (sum, spin) => sum + (parseInt(spin.prize) || 0),
     0
   );
-  const RTP = calcRTP(selectedPlayerType, metrics.spinCost) || 0;
+  const RTP = calcRTP(metrics.playerSettings[selectedPlayerType]) || 0;
   const biggestWin = Math.max(
     ...metrics.spins.map((spin) => parseInt(spin.prize) || 0),
     0
